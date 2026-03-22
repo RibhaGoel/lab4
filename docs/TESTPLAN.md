@@ -1,0 +1,20 @@
+# Test Plan for Account Management System
+
+This test plan covers the business logic of the COBOL-based Account Management System. It includes test cases for viewing balance, crediting accounts, debiting accounts, and handling invalid inputs. The initial balance is set to 1000.00.
+
+| Test Case ID | Test Case Description | Pre-conditions | Test Steps | Expected Result | Actual Result | Status (Pass/Fail) | Comments |
+|--------------|-----------------------|----------------|------------|----------------|----------------|---------------------|-----------|
+| TC001 | View current balance | Application is running, initial balance is 1000.00 | 1. Select option 1 (View Balance) | Display shows "Current balance: 1000.00" |  |  |  |
+| TC002 | Credit account with valid amount | Application is running, initial balance is 1000.00 | 1. Select option 2 (Credit Account)<br>2. Enter credit amount: 500.00 | Display shows "Amount credited. New balance: 1500.00" |  |  |  |
+| TC003 | Debit account with sufficient funds | Application is running, initial balance is 1000.00 | 1. Select option 3 (Debit Account)<br>2. Enter debit amount: 200.00 | Display shows "Amount debited. New balance: 800.00" |  |  |  |
+| TC004 | Debit account with insufficient funds | Application is running, initial balance is 1000.00 | 1. Select option 3 (Debit Account)<br>2. Enter debit amount: 1500.00 | Display shows "Insufficient funds for this debit." |  |  |  |
+| TC005 | Debit account with exact balance | Application is running, initial balance is 1000.00 | 1. Select option 3 (Debit Account)<br>2. Enter debit amount: 1000.00 | Display shows "Amount debited. New balance: 0.00" |  |  |  |
+| TC006 | Multiple credit operations | Application is running, initial balance is 1000.00 | 1. Select option 2, enter 100.00<br>2. Select option 2, enter 200.00<br>3. Select option 1 to view balance | Balance displays as 1300.00 |  |  | Test persistence of balance across operations |
+| TC007 | Multiple debit operations | Application is running, initial balance is 1000.00 | 1. Select option 3, enter 100.00<br>2. Select option 3, enter 200.00<br>3. Select option 1 to view balance | Balance displays as 700.00 |  |  | Test persistence and cumulative debits |
+| TC008 | Credit followed by debit | Application is running, initial balance is 1000.00 | 1. Select option 2, enter 300.00<br>2. Select option 3, enter 200.00<br>3. Select option 1 to view balance | Balance displays as 1100.00 |  |  | Test mixed operations |
+| TC009 | Invalid menu choice | Application is running | 1. Enter invalid choice (e.g., 5) | Display shows "Invalid choice, please select 1-4." |  |  |  |
+| TC010 | Exit application | Application is running | 1. Select option 4 (Exit) | Display shows "Exiting the program. Goodbye!" and program terminates |  |  |  |
+| TC011 | Credit with zero amount | Application is running, initial balance is 1000.00 | 1. Select option 2<br>2. Enter credit amount: 0.00 | Balance remains 1000.00, display shows "Amount credited. New balance: 1000.00" |  |  | Edge case: zero credit |
+| TC012 | Debit with zero amount | Application is running, initial balance is 1000.00 | 1. Select option 3<br>2. Enter debit amount: 0.00 | Balance remains 1000.00, display shows "Amount debited. New balance: 1000.00" |  |  | Edge case: zero debit (should succeed) |
+| TC013 | Credit with large amount | Application is running, initial balance is 1000.00 | 1. Select option 2<br>2. Enter credit amount: 999999.99 | Balance becomes 1000999.99, display shows new balance |  |  | Test maximum amount handling |
+| TC014 | Debit with amount equal to current balance after operations | Application has balance modified to 500.00 via prior credits/debits | 1. Select option 3<br>2. Enter debit amount: 500.00 | Balance becomes 0.00 |  |  | Test after modifying balance |
